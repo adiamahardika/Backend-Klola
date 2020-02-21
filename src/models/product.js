@@ -1,26 +1,25 @@
 const connection = require('../configs/mysql')
 
 module.exports = {
-  getAllProduct: (limit, page, searchName, sortBy, orderBy) => {
+  getAllProduct: (limit, page, searchName, sortBy, orderBy, productId) => {
+    const firstData = ((limit * page) - limit)
     return new Promise((resolve, reject) => {
-      const firstData = ((limit * page) - limit)
-      connection.query(`SELECT product.id, product.name, product.description, product.image, product.price, product.quantity, category.name as category, product.date_created, product.date_updated FROM product INNER JOIN category ON product.category = category.id
-      WHERE product.name LIKE '%${searchName}%'
-      ORDER BY ${sortBy} ${orderBy}
-      LIMIT ${firstData},${limit}`,
-      (error, result) => {
-        if (error) reject(new Error(error))
-        resolve(result)
-      })
-    })
-  },
-  getDetailProduct: (productId) => {
-    return new Promise((resolve, reject) => {
-      connection.query(`SELECT product.id, product.name, product.description, product.image, product.price, product.quantity, category.name as category, product.date_created, product.date_updated FROM product INNER JOIN category ON product.category = category.id
-      WHERE product.id = ?`, productId, (error, result) => {
-        if (error) reject(new Error(error))
-        resolve(result)
-      })
+      if (productId == null) {
+        connection.query(`SELECT product.id, product.name, product.description, product.image, product.price, product.quantity, category.name as category, product.date_created, product.date_updated FROM product INNER JOIN category ON product.category = category.id
+        WHERE product.name LIKE '%${searchName}%'
+        ORDER BY ${sortBy} ${orderBy}
+        LIMIT ${firstData},${limit}`,
+        (error, result) => {
+          if (error) reject(new Error(error))
+          resolve(result)
+        })
+      } else {
+        connection.query(`SELECT product.id, product.name, product.description, product.image, product.price, product.quantity, category.name as category, product.date_created, product.date_updated FROM product INNER JOIN category ON product.category = category.id
+        WHERE product.id = ?`, productId, (error, result) => {
+          if (error) reject(new Error(error))
+          resolve(result)
+        })
+      }  
     })
   },
   insertProduct: (data) => {

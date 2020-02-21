@@ -6,22 +6,14 @@ const { port } = require('../configs')
 module.exports = {
   getAllProduct: async (request, response) => {
     try {
+      const productId = request.params.productId || null
+
       const limit = request.query.limit || 25
       const page = request.query.page || 1
       const searchName = request.query.name || ''
       const sortBy = request.query.sortBy || 'id'
-      const orderBy = request.query.orderBy || 'asc'
-      const result = await productModel.getAllProduct(limit, page, searchName, sortBy, orderBy)
-      miscHelper.response(response, 200, result)
-    } catch (error) {
-      console.log(error)
-      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
-    }
-  },
-  getDetailProduct: async (request, response) => {
-    try {
-      const productId = request.params.productId
-      const result = await productModel.getDetailProduct(productId)
+      const orderBy = request.query.orderBy || 'ASC'
+      const result = await productModel.getAllProduct(limit, page, searchName, sortBy, orderBy, productId)
       miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
