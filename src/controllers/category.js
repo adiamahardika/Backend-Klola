@@ -3,13 +3,16 @@ const miscHelper = require('../helpers')
 
 module.exports = {
   getAllCategory: async (request, response) => {
-    try {
-      const searchName = request.query.name || ''
+    const searchName = request.query.name || ''
       const result = await categoryModel.getAllCategory(searchName)
       miscHelper.response(response, 200, result)
-    } catch (error) {
-      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
-    }
+    // try {
+    //   const searchName = request.query.name || ''
+    //   const result = await categoryModel.getAllCategory(searchName)
+    //   miscHelper.response(response, 200, result)
+    // } catch (error) {
+    //   miscHelper.customErrorResponse(response, 404, 'Internal server error!')
+    // }
   },
   getDetailCategory: async (request, response) => {
     try {
@@ -28,7 +31,7 @@ module.exports = {
         date_updated: new Date()
       }
       const result = await categoryModel.insertCategory(data)
-      miscHelper.response(response, 200, result)
+      miscHelper.response(response, 200, data)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
@@ -41,7 +44,7 @@ module.exports = {
         date_updated: new Date()
       }
       const result = await categoryModel.updateCategory(data, categoryId)
-      miscHelper.response(response, 200, result)
+      miscHelper.response(response, 200, data)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
@@ -50,7 +53,7 @@ module.exports = {
     try {
       const categoryId = request.params.categoryId
       const result = await categoryModel.deleteCategory(categoryId)
-      miscHelper.response(response, 200, result)
+      miscHelper.response(response, 200, 'The product successfully deleted!', result)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }

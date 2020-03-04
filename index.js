@@ -19,7 +19,7 @@ const corsOptions = {
 
 app.listen(port, () => console.log(`This Server is Running on port ${port}`))
 
-app.use(cors(corsOptions))
+app.use(cors('*'))
 
 app.use(logger('dev'))
 

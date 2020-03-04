@@ -9,9 +9,11 @@ module.exports = {
     try {
       const salt = helper.generateSalt(18)
       const hashPassword = helper.setPassword(request.body.password, salt)
+      const status = 2
       const data = {
         name: request.body.name,
         email: request.body.email,
+        status,
         salt: hashPassword.salt,
         password: hashPassword.passwordHash,
         date_created: new Date(),
@@ -46,6 +48,44 @@ module.exports = {
       dataUser.token = token
       miscHelper.response(response, 200, dataUser)
     } else {
+      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
+    }
+  },
+  getAllUser: async (request, response) => {
+    try {
+      const userId = request.params.userId || null
+      const name = request.query.name || ''
+      const status = request.query.status || ''
+      const result = await userModel.getAllUser(userId, name, status)
+      miscHelper.response(response, 200, result)
+    } catch (error) {
+      console.log(error)
+      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
+    }
+  },
+  updateUser: async (request, response) => {
+    try {
+      const data = {
+        name: request.body.name,
+        email: request.body.email,
+        status: request.body.status,
+        date_updated: new Date()
+      }
+      const userId = request.params.userId
+      const result = await userModel.updateUser(data, userId)
+      miscHelper.response(response, 200, data)
+    } catch (error) {
+      console.log(error)
+      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
+    }
+  },
+  deleteUser: async (request, response) => {
+    try {
+      const userId = request.params.userId
+      const result = await userModel.deleteUser(userId)
+      miscHelper.response(response, 200, userId)
+    } catch (error) {
+      console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
   }

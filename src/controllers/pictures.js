@@ -11,10 +11,10 @@ const storage = multer.diskStorage({
 
 const uploadFiles = multer({
   storage,
-  limits: (fileSize, callback) => { 
-    if (fileSize > 1024) {
+  limits: (fileSize, callback) => {
+    if (fileSize > 1024 * 1024) {
       return callback(null, false, new Error('File image is too large!'))
-    } 
+    }
   },
   fileFilter: (request, file, callback) => {
     const imageFilter = file.mimetype.toLowerCase()
