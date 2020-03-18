@@ -9,18 +9,17 @@ module.exports = {
     try {
       const salt = helper.generateSalt(18)
       const hashPassword = helper.setPassword(request.body.password, salt)
-      const status = 2
       const data = {
         name: request.body.name,
         email: request.body.email,
-        status,
+        status: request.body.status,
         salt: hashPassword.salt,
         password: hashPassword.passwordHash,
         date_created: new Date(),
         date_updated: new Date()
       }
       const result = await userModel.register(data)
-      miscHelper.response(response, 200, result)
+      miscHelper.response(response, 200, data)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')

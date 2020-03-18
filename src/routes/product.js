@@ -6,9 +6,9 @@ const { authentication, authorization } = require('../helpers/auth')
 const uploadFiles = require('../controllers/pictures')
 
 Route
-  .get('/:productId', getAllProduct)
+  .get('/:productId',  getAllProduct)
   .get('/', getAllProduct)
-  .post('/', uploadFiles, insertProduct)
+  .post('/', insertProduct)
   .patch('/:productId', updateProduct)
   .delete('/:productId', deleteProduct)
 

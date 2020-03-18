@@ -1,6 +1,7 @@
 const productModel = require('../models/product')
 const miscHelper = require('../helpers')
-const uuidv1 = require('uuid/v1')
+// const uuidv1 = require('uuid/v1')
+const uniqid = require('uniqid')
 const { port } = require('../configs')
 
 module.exports = {
@@ -8,7 +9,7 @@ module.exports = {
     try {
       const productId = request.params.productId || null
 
-      const limit = request.query.limit || 9
+      const limit = request.query.limit || 10
       const page = request.query.page || 1
       const searchName = request.query.name || ''
       const searchCategory = request.query.category || ''
@@ -29,12 +30,12 @@ module.exports = {
   },
   insertProduct: async (request, response) => {
     try {
-      const id = uuidv1()
+      const id = uniqid.process()
       const data = {
         id,
         name: request.body.name,
         description: request.body.description,
-        image: `http://localhost:${port}/pictures/${request.file.filename}`,
+        // image: `http://localhost:${port}/pictures/${request.file.filename}`,
         quantity: request.body.quantity,
         price: request.body.price,
         category: request.body.category,
@@ -49,7 +50,8 @@ module.exports = {
     }
   },
   updateProduct: async (request, response) => {
-    try {
+    const productId = request.params.productId
+      if(!request.file || Object.keys(request.file).length === 0 ) {
       const data = {
         name: request.body.name,
         description: request.body.description,
@@ -58,9 +60,63 @@ module.exports = {
         category: request.body.category,
         date_updated: new Date()
       }
-      const productId = request.params.productId
       const result = await productModel.updateProduct(data, productId)
-      miscHelper.response(response, 200, data)
+      const newData = {
+        ...data, 
+        id: productId
+      }
+      miscHelper.response(response, 200, newData)
+    }
+    
+    const data = {
+      name: request.body.name,
+      description: request.body.description,
+      // image: `http://localhost:${port}/pictures/${request.file.filename}`,
+      quantity: request.body.quantity,
+      price: request.body.price,
+      category: request.body.category,
+      date_updated: new Date()
+    }
+    const result = await productModel.updateProduct(data, productId)
+    const newData = {
+      ...data,
+      id:productId
+    }
+    miscHelper.response(response, 200, newData)
+    
+    try {
+    //   const productId = request.params.productId
+    //   if(!request.file || Object.keys(request.file).length === 0 ) {
+    //   const data = {
+    //     name: request.body.name,
+    //     description: request.body.description,
+    //     quantity: request.body.quantity,
+    //     price: request.body.price,
+    //     category: request.body.category,
+    //     date_updated: new Date()
+    //   }
+    //   const result = await productModel.updateProduct(data, productId)
+    //   const newData = {
+    //     ...data, id: productId
+    //   }
+    //   miscHelper.response(response, 200, newData)
+    // }
+    // const data = {
+    //   name: request.body.name,
+    //   description: request.body.description,
+    //   image: `http://localhost:${port}/pictures/${request.file.filename}`,
+    //   quantity: request.body.quantity,
+    //   price: request.body.price,
+    //   category: request.body.category,
+    //   date_updated: new Date()
+    // }
+    // const result = await productModel.updateProduct(data, productId)
+    // const newData = {
+    //   ...data,
+    //   id:productId
+    // }
+    // console.log(newData)
+    // miscHelper.response(response, 200, newData)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')

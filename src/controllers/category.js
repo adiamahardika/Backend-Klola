@@ -31,6 +31,7 @@ module.exports = {
         date_updated: new Date()
       }
       const result = await categoryModel.insertCategory(data)
+      data.id = result.insertId
       miscHelper.response(response, 200, data)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
@@ -53,7 +54,8 @@ module.exports = {
     try {
       const categoryId = request.params.categoryId
       const result = await categoryModel.deleteCategory(categoryId)
-      miscHelper.response(response, 200, 'The product successfully deleted!', result)
+      const idCategory = parseInt(categoryId)
+      miscHelper.response(response, 200, idCategory)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }

@@ -3,7 +3,7 @@ const express = require('express')
 const Route = express.Router()
 
 const { getAllCategory, getDetailCategory, insertCategory, updateCategory, deleteCategory } = require('../controllers/category')
-// const { authentication, authorization } = require('../helpers/auth')
+const { authentication, authorization } = require('../helpers/auth')
 
 Route
   .get('/', getAllCategory)
