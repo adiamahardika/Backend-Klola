@@ -1,6 +1,5 @@
 const productModel = require('../models/product')
 const miscHelper = require('../helpers')
-// const uuidv1 = require('uuid/v1')
 const uniqid = require('uniqid')
 const { port } = require('../configs')
 
@@ -9,7 +8,7 @@ module.exports = {
     try {
       const productId = request.params.productId || null
 
-      const limit = request.query.limit || 10
+      const limit = request.query.limit || 25
       const page = request.query.page || 1
       const searchName = request.query.name || ''
       const searchCategory = request.query.category || ''
@@ -35,7 +34,7 @@ module.exports = {
         id,
         name: request.body.name,
         description: request.body.description,
-        // image: `http://localhost:${port}/pictures/${request.file.filename}`,
+        image: `http://localhost:${port}/pictures/${request.file.filename}`,
         quantity: request.body.quantity,
         price: request.body.price,
         category: request.body.category,
@@ -43,14 +42,15 @@ module.exports = {
         date_updated: new Date()
       }
       const result = await productModel.insertProduct(data)
-      miscHelper.response(response, 200, data)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
   },
   updateProduct: async (request, response) => {
-    const productId = request.params.productId
+    try {
+      const productId = request.params.productId
       if(!request.file || Object.keys(request.file).length === 0 ) {
       const data = {
         name: request.body.name,
@@ -61,62 +61,20 @@ module.exports = {
         date_updated: new Date()
       }
       const result = await productModel.updateProduct(data, productId)
-      const newData = {
-        ...data, 
-        id: productId
-      }
-      miscHelper.response(response, 200, newData)
+      miscHelper.response(response, 200, result)
     }
     
     const data = {
       name: request.body.name,
       description: request.body.description,
-      // image: `http://localhost:${port}/pictures/${request.file.filename}`,
+      image: `http://localhost:${port}/pictures/${request.file.filename}`,
       quantity: request.body.quantity,
       price: request.body.price,
       category: request.body.category,
       date_updated: new Date()
     }
     const result = await productModel.updateProduct(data, productId)
-    const newData = {
-      ...data,
-      id:productId
-    }
-    miscHelper.response(response, 200, newData)
-    
-    try {
-    //   const productId = request.params.productId
-    //   if(!request.file || Object.keys(request.file).length === 0 ) {
-    //   const data = {
-    //     name: request.body.name,
-    //     description: request.body.description,
-    //     quantity: request.body.quantity,
-    //     price: request.body.price,
-    //     category: request.body.category,
-    //     date_updated: new Date()
-    //   }
-    //   const result = await productModel.updateProduct(data, productId)
-    //   const newData = {
-    //     ...data, id: productId
-    //   }
-    //   miscHelper.response(response, 200, newData)
-    // }
-    // const data = {
-    //   name: request.body.name,
-    //   description: request.body.description,
-    //   image: `http://localhost:${port}/pictures/${request.file.filename}`,
-    //   quantity: request.body.quantity,
-    //   price: request.body.price,
-    //   category: request.body.category,
-    //   date_updated: new Date()
-    // }
-    // const result = await productModel.updateProduct(data, productId)
-    // const newData = {
-    //   ...data,
-    //   id:productId
-    // }
-    // console.log(newData)
-    // miscHelper.response(response, 200, newData)
+    miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
@@ -126,7 +84,7 @@ module.exports = {
     try {
       const productId = request.params.productId
       const result = await productModel.deleteProduct(productId)
-      miscHelper.response(response, 200, productId)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')

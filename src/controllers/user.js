@@ -19,7 +19,7 @@ module.exports = {
         date_updated: new Date()
       }
       const result = await userModel.register(data)
-      miscHelper.response(response, 200, data)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
@@ -72,7 +72,7 @@ module.exports = {
       }
       const userId = request.params.userId
       const result = await userModel.updateUser(data, userId)
-      miscHelper.response(response, 200, data)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
@@ -82,7 +82,7 @@ module.exports = {
     try {
       const userId = request.params.userId
       const result = await userModel.deleteUser(userId)
-      miscHelper.response(response, 200, userId)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')

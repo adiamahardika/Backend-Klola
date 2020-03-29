@@ -7,7 +7,7 @@ module.exports = {
             resolve(result[0].totalData)
         })
     })
-},
+  },
   getAllProduct: (limit, page, searchName, sortBy, orderBy, productId, searchCategory) => {
     const firstData = ((limit * page) - limit)
     return new Promise((resolve, reject) => {
@@ -31,26 +31,39 @@ module.exports = {
   },
   insertProduct: (data) => {
     return new Promise((resolve, reject) => {
-      connection.query('INSERT INTO product SET ?', data, (error, result) => {
-        if (error) reject(new Error(error))
-        resolve(result)
+      connection.query('SELECT * FROM product WHERE name = ?', data.name, (error, result) => {
+        if (result.length > 0) {
+          connection.query('UPDATE product SET quantity = ? WHERE id = ?', [result[0].quantity + parseInt(data.quantity), result[0].id], (error, result) => {
+            if (error) reject(new Error(error))
+            resolve(result)
+          })
+        } else {
+          connection.query('INSERT INTO product SET ?', data)
+          connection.query(`SELECT product.id, product.name, product.description, product.image, product.price, product.quantity, category.name as category, product.date_created, product.date_updated FROM product INNER JOIN category ON product.category = category.id
+          `, (error, result) => {
+            if (error) reject(new Error(error))
+            resolve(result)
+          })
+        } if (error) reject(new Error(error))
       })
     })
   },
   updateProduct: (data, productId) => {
     return new Promise((resolve, reject) => {
-      connection.query('UPDATE product SET ? WHERE id = ?', [data, productId], (error, result) => {
-        if (error) reject(new Error(error))
-        resolve(result)
+      connection.query('UPDATE product SET ? WHERE id = ?', [data, productId])
+      connection.query(`SELECT product.id, product.name, product.description, product.image, product.price, product.quantity, category.name as category, product.date_created, product.date_updated FROM product INNER JOIN category ON product.category = category.id`, (error, result) => {
+      if (error) reject(new Error(error))
+      resolve(result)
       })
     })
   },
   deleteProduct: (productId) => {
     return new Promise((resolve, reject) => {
-      connection.query('DELETE FROM product WHERE id = ?', productId, (error, result) => {
+      connection.query('DELETE FROM product WHERE id = ?', productId)
+      connection.query(`SELECT product.id, product.name, product.description, product.image, product.price, product.quantity, category.name as category, product.date_created, product.date_updated FROM product INNER JOIN category ON product.category = category.id`, (error, result) => {
         if (error) reject(new Error(error))
         resolve(result)
-      })
+        })
     })
   }
 }
