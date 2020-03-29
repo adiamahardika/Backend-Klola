@@ -8,7 +8,7 @@ module.exports = {
     try {
       const productId = request.params.productId || null
 
-      const limit = request.query.limit || 10
+      const limit = request.query.limit || 25
       const page = request.query.page || 1
       const searchName = request.query.name || ''
       const searchCategory = request.query.category || ''
@@ -84,7 +84,7 @@ module.exports = {
     try {
       const productId = request.params.productId
       const result = await productModel.deleteProduct(productId)
-      miscHelper.response(response, 200, productId)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')

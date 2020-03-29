@@ -59,10 +59,11 @@ module.exports = {
   },
   deleteProduct: (productId) => {
     return new Promise((resolve, reject) => {
-      connection.query('DELETE FROM product WHERE id = ?', productId, (error, result) => {
+      connection.query('DELETE FROM product WHERE id = ?', productId)
+      connection.query(`SELECT product.id, product.name, product.description, product.image, product.price, product.quantity, category.name as category, product.date_created, product.date_updated FROM product INNER JOIN category ON product.category = category.id`, (error, result) => {
         if (error) reject(new Error(error))
         resolve(result)
-      })
+        })
     })
   }
 }
