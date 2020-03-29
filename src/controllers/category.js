@@ -50,8 +50,8 @@ module.exports = {
   deleteCategory: async (request, response) => {
     try {
       const categoryId = request.params.categoryId
-      const result = await categoryModel.deleteCategory(categoryId)
       const idCategory = parseInt(categoryId)
+      const result = await categoryModel.deleteCategory(idCategory)
       miscHelper.response(response, 200, result)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
