@@ -1,6 +1,5 @@
 require('dotenv/config')
 
-// mengekspor modul yang ada didalam
 module.exports = {
   database: {
     host: process.env.DB_HOST,
