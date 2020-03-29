@@ -8,8 +8,8 @@ const uploadFiles = require('../controllers/pictures')
 Route
   .get('/:productId',  getAllProduct)
   .get('/', getAllProduct)
-  .post('/', insertProduct)
-  .patch('/:productId', updateProduct)
+  .post('/', uploadFiles, insertProduct)
+  .patch('/:productId', uploadFiles, updateProduct)
   .delete('/:productId', deleteProduct)
 
 module.exports = Route
