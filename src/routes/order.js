@@ -1,10 +1,12 @@
 const express = require('express')
 const Route = express.Router()
 
-const { orderProduct, readOrder } = require('../controllers/order')
+const { orderProduct, readOrder, chartOrder } = require('../controllers/order')
 
 Route
   .post('/', orderProduct)
-  .get('/', readOrder)
+  .get('/history/', readOrder)
+  .get('/history/:id', readOrder)
+  .get('/chart', chartOrder)
 
 module.exports = Route
