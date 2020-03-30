@@ -45,19 +45,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
         connection.query(`SELECT SUM(total) AS total, DATE_FORMAT(date_created,'%Y-%m-%d') as date FROM purchase where date_created >= '${startDate}' and date_created <= DATE_ADD('${endDate}', INTERVAL 1 DAY) GROUP BY DATE(date_created)`, (error, result) => {
           if (error) reject(new Error(error))
-          console.log(result)
           resolve(result)
         })
       })
-    //   const chart = 'SELECT *, SUM(total) AS total, DAYOFWEEK(DATE) AS today, DAYNAME(DATE) AS DAYNAME, MONTHNAME(DATE) MONTHNAME, YEAR(DATE) AS YEAR, EXTRACT(MONTH FROM DATE) AS MONTH, EXTRACT(DAY FROM DATE) AS WEEK, EXTRACT(YEAR FROM DATE) AS YEAR FROM purchase ORDER BY' + orderBy;
-    //   return new Promise((resolve, reject) => {
-    //       connection.query(chart, (error, result) => {
-    //           if (!error) {
-    //               resolve(result)
-    //           } else {
-    //               reject(error)
-    //           }
-    //       })
-    //   })
   }
 }

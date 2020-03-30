@@ -50,15 +50,5 @@ module.exports = {
           } catch (error) {
             console.log(error)
           }
-        // try {
-        //     const orderBy = request.query.orderBy
-        //     orderBy = typeof orderBy !== 'undefined' ? orderBy : "week"
-
-        //     const result = await orderModel.chartOrder(orderBy)
-        //     miscHelper.response(response, 200, result)
-        // } catch {
-        //     console.log(error)
-        //     miscHelper.customErrorResponse(response, 404, 'Read Chart Failed!')
-        // }
     }
 }
