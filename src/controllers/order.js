@@ -16,7 +16,7 @@ module.exports = {
                     user: orderProduct.user,
                     total: orderProduct.total,
                     id: event.id,
-                    quantity: event.quantity,
+                    quantity: event.qty
                 }
                 orderModel.orderProduct(data, transaction)
                 transaction++
@@ -45,6 +45,7 @@ module.exports = {
             const end = request.query.end || date
             const startDate = moment(new Date(start)).format('YYYY-MM-DD')
             const endDate = moment(new Date(end)).format('YYYY-MM-DD')
+            // console.log("ini", startDate)
             const result = await orderModel.chartOrder(startDate, endDate)
             response.json(result)
           } catch (error) {
