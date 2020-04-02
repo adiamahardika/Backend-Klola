@@ -67,7 +67,7 @@ module.exports = {
     const data = {
       name: request.body.name,
       description: request.body.description,
-      image: `${ip}:${port}/pictures/${request.file.filename}`,
+      image: `${ip}/pictures/${request.file.filename}`,
       quantity: request.body.quantity,
       price: request.body.price,
       category: request.body.category,
