@@ -1,7 +1,7 @@
 const productModel = require('../models/product')
 const miscHelper = require('../helpers')
 const uniqid = require('uniqid')
-const { port } = require('../configs')
+const { port, ip } = require('../configs')
 
 module.exports = {
   getAllProduct: async (request, response) => {
@@ -34,7 +34,7 @@ module.exports = {
         id,
         name: request.body.name,
         description: request.body.description,
-        image: `http://localhost:${port}/pictures/${request.file.filename}`,
+        image: `${ip}:${port}/pictures/${request.file.filename}`,
         quantity: request.body.quantity,
         price: request.body.price,
         category: request.body.category,
@@ -67,7 +67,7 @@ module.exports = {
     const data = {
       name: request.body.name,
       description: request.body.description,
-      image: `http://localhost:${port}/pictures/${request.file.filename}`,
+      image: `${ip}:${port}/pictures/${request.file.filename}`,
       quantity: request.body.quantity,
       price: request.body.price,
       category: request.body.category,
