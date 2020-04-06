@@ -26,7 +26,7 @@ Representational state transfer (REST) is a software architectural style that de
 [![MySQL](https://img.shields.io/badge/body--parser-1.19.0-red?rounded-square)](https://www.npmjs.com/package/body-parser) 
 [![Morgan](https://img.shields.io/badge/morgan-1.9.1-brightgreen?style=rounded-square)](https://www.npmjs.com/package/morgan) 
 [![CORS](https://img.shields.io/badge/cors-2.8.5-lightgrey?style=rounded-square)](https://www.npmjs.com/package/cors) 
-[![CORS](https://img.shields.io/badge/jsonwebtoken-8.5.1-yellowgreen?style=rounded-square)](https://www.npmjs.com/package/jsonwebtoken)
+[![JWT](https://img.shields.io/badge/jsonwebtoken-8.5.1-yellowgreen?style=rounded-square)](https://www.npmjs.com/package/jsonwebtoken)
 [![Dotenv](https://img.shields.io/badge/dotenv-2.8.5-brightgreen?style=rounded-square)](https://www.npmjs.com/package/dotenv)
 [![Standard](https://img.shields.io/badge/standard-14.3.1-brightred?style=rounded-square)](https://www.npmjs.com/package/standard)
 [![Multer](https://img.shields.io/badge/multer-1.4.5-lightgreen?style=rounded-square)](https://www.npmjs.com/package/multer)
