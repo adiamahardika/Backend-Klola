@@ -8,7 +8,7 @@ module.exports = {
     try {
       const productId = request.params.productId || null
 
-      const limit = request.query.limit || 25
+      const limit = request.query.limit || 100
       const page = request.query.page || 1
       const searchName = request.query.name || ''
       const searchCategory = request.query.category || ''
