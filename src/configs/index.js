@@ -1,6 +1,5 @@
 require('dotenv/config')
 
-// mengekspor modul yang ada didalam
 module.exports = {
   database: {
     host: process.env.DB_HOST,
@@ -9,5 +8,6 @@ module.exports = {
     database: process.env.DB_NAME
   },
   port: process.env.PORT,
-  JWT_KEY: process.env.JWT_SecretKey
+  JWT_KEY: process.env.JWT_SecretKey,
+  ip: process.env.DB_IP
 }

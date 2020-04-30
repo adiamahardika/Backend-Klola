@@ -3,16 +3,13 @@ const miscHelper = require('../helpers')
 
 module.exports = {
   getAllCategory: async (request, response) => {
-    const searchName = request.query.name || ''
+    try {
+      const searchName = request.query.name || ''
       const result = await categoryModel.getAllCategory(searchName)
       miscHelper.response(response, 200, result)
-    // try {
-    //   const searchName = request.query.name || ''
-    //   const result = await categoryModel.getAllCategory(searchName)
-    //   miscHelper.response(response, 200, result)
-    // } catch (error) {
-    //   miscHelper.customErrorResponse(response, 404, 'Internal server error!')
-    // }
+    } catch (error) {
+      miscHelper.customErrorResponse(response, 404, 'Internal server error!')
+    }
   },
   getDetailCategory: async (request, response) => {
     try {
@@ -32,7 +29,7 @@ module.exports = {
       }
       const result = await categoryModel.insertCategory(data)
       data.id = result.insertId
-      miscHelper.response(response, 200, data)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
@@ -45,7 +42,7 @@ module.exports = {
         date_updated: new Date()
       }
       const result = await categoryModel.updateCategory(data, categoryId)
-      miscHelper.response(response, 200, data)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
@@ -53,9 +50,9 @@ module.exports = {
   deleteCategory: async (request, response) => {
     try {
       const categoryId = request.params.categoryId
-      const result = await categoryModel.deleteCategory(categoryId)
       const idCategory = parseInt(categoryId)
-      miscHelper.response(response, 200, idCategory)
+      const result = await categoryModel.deleteCategory(idCategory)
+      miscHelper.response(response, 200, result)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
     }
