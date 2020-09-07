@@ -5,7 +5,6 @@ module.exports = {
   authentication: (request, response, next) => {
     const headerToken = request.headers.authorization
     const userId = request.headers['user-id']
-    console.log(userId)
     if (headerToken === undefined) {
       response.json({ message: 'Please provide Token!' })
     } else {

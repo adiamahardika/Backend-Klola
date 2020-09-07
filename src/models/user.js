@@ -1,17 +1,13 @@
 const connection = require("../configs/mysql");
-
+const readQuery = `SELECT user.id, user.name, user.email, user.status, user_status.status as status_name, user.date_created, user.date_updated FROM user LEF JOIN user_status ON user.status = user_status.id ORDER BY name ASC`;
 module.exports = {
   register: (data) => {
     return new Promise((resolve, reject) => {
-      connection.query("ALTER TABLE user AUTO_INCREMENT = 0");
       connection.query("INSERT INTO user SET ?", data);
-      connection.query(
-        "SELECT user.id, user.name, user.email, user.status, user_status.status as status, user.date_created, user.date_updated FROM user INNER JOIN user_status ON user.status = user_status.id",
-        (error, result) => {
-          if (error) reject(new Error(error));
-          resolve(result);
-        }
-      );
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
     });
   },
   checkEmail: (email) => {
@@ -30,7 +26,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       if (userId !== null) {
         connection.query(
-          `SELECT user.id, user.name, user.email, user.status, user_status.status as status, user.date_created, user.date_updated FROM user INNER JOIN user_status ON user.status = user_status.id
+          `SELECT user.id, user.name, user.email, user.status, user_status.status as status_name, user.date_created, user.date_updated FROM user LEFT JOIN user_status ON user.status = user_status.id
       WHERE user.id = ?`,
           userId,
           (error, result) => {
@@ -40,8 +36,8 @@ module.exports = {
         );
       } else {
         connection.query(
-          `SELECT user.id, user.name, user.email, user.status, user_status.status as status, user.date_created, user.date_updated FROM user INNER JOIN user_status ON user.status = user_status.id
-      WHERE user.name LIKE '%${name}' AND user_status.status LIKE '%${status}'`,
+          `SELECT user.id, user.name, user.email, user.status, user_status.status as status_name, user.date_created, user.date_updated FROM user LEFT JOIN user_status ON user.status = user_status.id
+      WHERE user.name LIKE '%${name}' AND user_status.status LIKE '%${status}' ORDER BY name ASC`,
           (error, result) => {
             if (error) reject(new Error(error));
             resolve(result);
@@ -53,29 +49,19 @@ module.exports = {
   updateUser: (data, userId) => {
     return new Promise((resolve, reject) => {
       connection.query("UPDATE user SET ? WHERE id = ?", [data, userId]);
-      connection.query(
-        "SELECT user.id, user.name, user.email, user.status, user_status.status as status, user.date_created, user.date_updated FROM user INNER JOIN user_status ON user.status = user_status.id",
-        (error, result) => {
-          if (error) reject(new Error(error));
-          resolve(result);
-        }
-      );
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
     });
   },
   deleteUser: (userId) => {
     return new Promise((resolve, reject) => {
       connection.query("DELETE FROM user WHERE id = ?", userId);
-      connection.query(
-        "SELECT user.id, user.name, user.email, user.status, user_status.status as status, user.date_created, user.date_updated FROM user INNER JOIN user_status ON user.status = user_status.id",
-        (error, result) => {
-          if (error) reject(new Error(error));
-          connection.query("ALTER TABLE user DROP id");
-          connection.query(
-            "ALTER TABLE user ADD id INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST"
-          );
-          resolve(result);
-        }
-      );
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
     });
   },
 };

@@ -6,10 +6,10 @@ const { authentication, authorization } = require('../helpers/auth')
 const uploadFiles = require('../controllers/pictures')
 
 Route
-  .get('/:productId',  authentication, authorization, getAllProduct)
-  .get('/', authentication, authorization, getAllProduct)
-  .post('/', authentication, authorization, uploadFiles, insertProduct)
-  .patch('/:productId', authentication, authorization, uploadFiles, updateProduct)
-  .delete('/:productId', authentication, authorization, deleteProduct)
+  .get('/:productId',  getAllProduct)
+  .get('/', getAllProduct)
+  .post('/', uploadFiles, insertProduct)
+  .patch('/:productId', uploadFiles, updateProduct)
+  .delete('/:productId', deleteProduct)
 
 module.exports = Route
