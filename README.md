@@ -11,7 +11,7 @@
 - [Contributors](#contributors)
 
 ## Introduction
-KLOLA adalah sebuah aplikasi point of sales sederhana yang digunakan untuk memudahkan pengelolaan data transaksi pada sebuah toko atau restaurant. Dikembangkan menggunkan ReactJS sebagai library dan Redux untuk mengolah statenya.
+KLOLA adalah sebuah aplikasi point of sales sederhana yang digunakan untuk memudahkan pengelolaan data transaksi pada sebuah toko atau restaurant. Backend Klola dikembangkan menggunkan NodeJS untuk menjalankan javascript dan ExpressJS sebagai frameworknya.
 
 ## Built With
 1. [Node JS](https://nodejs.org/en/download/)
