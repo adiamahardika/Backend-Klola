@@ -3,9 +3,9 @@ const mysql = require("mysql");
 const connection = mysql.createConnection(database);
 connection.connect((error) => {
   if (error) {
-    console.log("Connection to Database has Failed!");
+    console.log("Connection to Database has been failed!");
   } else {
-    console.log("Database Connected!");
+    console.log("Connection to database has been success!");
   }
 });
 

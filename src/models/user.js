@@ -37,7 +37,7 @@ module.exports = {
       } else {
         connection.query(
           `SELECT user.id, user.name, user.email, user.status, user_status.status as status_name, user.date_created, user.date_updated FROM user LEFT JOIN user_status ON user.status = user_status.id
-      WHERE user.name LIKE '%${name}' AND user_status.status LIKE '%${status}' ORDER BY name ASC`,
+      WHERE user.name LIKE '%${name}' AND user.status LIKE '%${status}' ORDER BY name ASC`,
           (error, result) => {
             if (error) reject(new Error(error));
             resolve(result);

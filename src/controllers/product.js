@@ -38,7 +38,7 @@ module.exports = {
         productId,
         searchCategory
       );
-      miscHelper.customResponse(response, 200, result, pagination);
+      miscHelper.CustomResponsePagination(response, 200, result, pagination);
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(response, 404, "Internal server error!");

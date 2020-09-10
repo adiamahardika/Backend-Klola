@@ -47,7 +47,7 @@ module.exports = {
       } else {
         connection.query(
           `SELECT product.id, product.name, product.description, product.category, product.image, product.price, product.quantity, category.name as category_name, product.date_created, product.date_updated FROM product LEFT JOIN category ON product.category = category.id
-        WHERE product.name LIKE '%${searchName}%' AND category.id LIKE '%${searchCategory}%'
+        WHERE product.name LIKE '%${searchName}%' AND peroduct.category LIKE '%${searchCategory}%'
         ORDER BY ${sortBy} ${orderBy}
         LIMIT ${firstData},${limit}`,
           (error, result) => {
