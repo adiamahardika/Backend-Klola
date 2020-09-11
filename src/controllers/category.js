@@ -13,8 +13,8 @@ module.exports = {
   },
   getDetailCategory: async (request, response) => {
     try {
-      const categoryId = request.params.categoryId
-      const result = await categoryModel.getDetailCategory(categoryId)
+      const id = request.params.id
+      const result = await categoryModel.getDetailCategory(id)
       miscHelper.response(response, 200, result)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
@@ -30,7 +30,6 @@ module.exports = {
         date_updated: new Date()
       }
       const result = await categoryModel.insertCategory(data)
-      data.id = result.insertId
       miscHelper.response(response, 200, result)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
@@ -38,12 +37,12 @@ module.exports = {
   },
   updateCategory: async (request, response) => {
     try {
-      const categoryId = request.params.categoryId
+      const id = request.params.id
       const data = {
         name: request.body.name,
         date_updated: new Date()
       }
-      const result = await categoryModel.updateCategory(data, categoryId)
+      const result = await categoryModel.updateCategory(data, id)
       miscHelper.response(response, 200, result)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')
@@ -51,9 +50,8 @@ module.exports = {
   },
   deleteCategory: async (request, response) => {
     try {
-      const categoryId = request.params.categoryId
-      const idCategory = parseInt(categoryId)
-      const result = await categoryModel.deleteCategory(idCategory)
+      const id = request.params.id
+      const result = await categoryModel.deleteCategory(id)
       miscHelper.response(response, 200, result)
     } catch (error) {
       miscHelper.customErrorResponse(response, 404, 'Internal server error!')

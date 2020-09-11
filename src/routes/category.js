@@ -7,9 +7,9 @@ const { authentication, authorization } = require('../helpers/auth')
 
 Route
   .get('/', getAllCategory)
-  .get('/:categoryId', getDetailCategory)
+  .get('/:id', getDetailCategory)
   .post('/', insertCategory)
-  .patch('/:categoryId', updateCategory)
-  .delete('/:categoryId', deleteCategory)
+  .patch('/:id', updateCategory)
+  .delete('/:id', deleteCategory)
 
 module.exports = Route
