@@ -1,6 +1,6 @@
 <p align="center">
-<img width=150 src='https://user-images.githubusercontent.com/59129342/78556131-9c0fbc00-7838-11ea-9d57-c8f5013ceed0.png' />
- <h1 align="center">The Mahardika FnB</h1>
+<img width=500 src='https://user-images.githubusercontent.com/59129342/92569033-3f627280-f2aa-11ea-8cbb-051b35b96b0d.png' />
+ <h1 align="center">KLOLA point of sales app</h1>
 </p>
 
 ## Table of Contents
@@ -11,7 +11,7 @@
 - [Contributors](#contributors)
 
 ## Introduction
-The Mahardika FnB is a application made for restaurant cashier, aims to bring more ease in transaction data management.
+KLOLA adalah sebuah aplikasi point of sales sederhana yang digunakan untuk memudahkan pengelolaan data transaksi pada sebuah toko atau restaurant. Backend Klola dikembangkan menggunkan NodeJS untuk menjalankan javascript dan ExpressJS sebagai frameworknya.
 
 ## Built With
 1. [Node JS](https://nodejs.org/en/download/)
@@ -23,7 +23,7 @@ The Mahardika FnB is a application made for restaurant cashier, aims to bring mo
 1. Open your CLI
 2. Clone this repo
 ```
-git clone https://github.com/adiamahardika/Backend-Point-Of-Sales.git
+git clone https://github.com/adiamahardika/Backend-Klola.git
 ```
 3. Create **.env** file
 ```
