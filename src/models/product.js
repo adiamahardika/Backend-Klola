@@ -13,32 +13,43 @@ module.exports = {
       );
     });
   },
-  countData: () => {
+  countData: (id, search_name, search_category, sort_by, order_by) => {
     return new Promise((resolve, reject) => {
-      connection.query(
-        "SELECT count(*) as totalData FROM product",
-        (error, result) => {
-          resolve(result[0].totalData);
-        }
-      );
+      if (id !== null) {
+        connection.query(
+          "SELECT count(*) as total_data FROM product WHERE product.id = ?",
+          id,
+          (error, result) => {
+            if (error) reject(new Error(error));
+            resolve(result[0].total_data);
+          }
+        );
+      } else {
+        connection.query(
+          `SELECT count(*) as total_data FROM product WHERE product.name LIKE '%${search_name}%' AND product.category LIKE '%${search_category}%' ORDER BY ${sort_by} ${order_by}`,
+          (error, result) => {
+            if (error) reject(new Error(error));
+            resolve(result[0].total_data);
+          }
+        );
+      }
     });
   },
   getAllProduct: (
-    limit,
-    page,
-    searchName,
-    sortBy,
-    orderBy,
-    productId,
-    searchCategory
+    id,
+    search_name,
+    search_category,
+    sort_by,
+    order_by,
+    start_index,
+    limit
   ) => {
-    const firstData = limit * page - limit;
     return new Promise((resolve, reject) => {
-      if (productId !== null) {
+      if (id !== null) {
         connection.query(
           `SELECT product.id, product.name, product.description, product.category, product.image, product.price, product.quantity, category.name as category_name, product.date_created, product.date_updated FROM product LEFT JOIN category ON product.category = category.id
         WHERE product.id = ?`,
-          productId,
+          id,
           (error, result) => {
             if (error) reject(new Error(error));
             resolve(result);
@@ -47,9 +58,9 @@ module.exports = {
       } else {
         connection.query(
           `SELECT product.id, product.name, product.description, product.category, product.image, product.price, product.quantity, category.name as category_name, product.date_created, product.date_updated FROM product LEFT JOIN category ON product.category = category.id
-        WHERE product.name LIKE '%${searchName}%' AND peroduct.category LIKE '%${searchCategory}%'
-        ORDER BY ${sortBy} ${orderBy}
-        LIMIT ${firstData},${limit}`,
+        WHERE product.name LIKE '%${search_name}%' AND product.category LIKE '%${search_category}%'
+        ORDER BY ${sort_by} ${order_by}
+        LIMIT ${start_index},${limit}`,
           (error, result) => {
             if (error) reject(new Error(error));
             resolve(result);

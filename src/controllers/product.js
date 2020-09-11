@@ -17,28 +17,37 @@ const deleteFile = async (id) => {
 module.exports = {
   getAllProduct: async (request, response) => {
     try {
-      const productId = request.params.productId || null;
-      const limit = request.query.limit || 100;
-      const page = request.query.page || 1;
-      const searchName = request.query.name || "";
-      const searchCategory = request.query.category || "";
-      const sortBy = request.query.sortBy || "name";
-      const orderBy = request.query.orderBy || "ASC";
-      const totalData = await productModel.countData();
-      const totalPages = Math.ceil(totalData / limit);
+      const id = request.params.id || null;
+      const search_name = request.query.name || "";
+      const search_category = request.query.category || "";
+      const sort_by = request.query.sort_by || "name";
+      const order_by = request.query.order_by || "ASC";
+      const total_data = await productModel.countData(
+        id,
+        search_name,
+        search_category,
+        sort_by,
+        order_by
+      );
+      const limit = parseInt(request.query.limit) || 100;
+      const page = parseInt(request.query.page) || 1;
+      const start_index = (page - 1) * limit;
       const pagination = {
-        totalPages,
+        total_data,
+        page,
+        limit,
+        start_index,
       };
       const result = await productModel.getAllProduct(
+        id,
+        search_name,
+        search_category,
+        sort_by,
+        order_by,
+        start_index,
         limit,
-        page,
-        searchName,
-        sortBy,
-        orderBy,
-        productId,
-        searchCategory
       );
-      miscHelper.CustomResponsePagination(response, 200, result, pagination);
+      miscHelper.customResponsePagination(response, 200, result, pagination);
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(response, 404, "Internal server error!");
@@ -67,7 +76,7 @@ module.exports = {
   },
   updateProduct: async (request, response) => {
     try {
-      const productId = request.params.productId;
+      const id = request.params.id;
       if (!request.file || Object.keys(request.file).length === 0) {
         const data = {
           name: request.body.name,
@@ -77,10 +86,10 @@ module.exports = {
           category: request.body.category,
           date_updated: new Date(),
         };
-        const result = await productModel.updateProduct(data, productId);
+        const result = await productModel.updateProduct(data, id);
         miscHelper.response(response, 200, result);
       } else {
-        await deleteFile(productId);
+        await deleteFile(id);
         const data = {
           name: request.body.name,
           description: request.body.description,
@@ -90,7 +99,7 @@ module.exports = {
           category: request.body.category,
           date_updated: new Date(),
         };
-        const result = await productModel.updateProduct(data, productId);
+        const result = await productModel.updateProduct(data, id);
         miscHelper.response(response, 200, result);
       }
     } catch (error) {
@@ -100,9 +109,9 @@ module.exports = {
   },
   deleteProduct: async (request, response) => {
     try {
-      const productId = request.params.productId;
-      await deleteFile(productId);
-      const result = await productModel.deleteProduct(productId);
+      const id = request.params.id;
+      await deleteFile(id);
+      const result = await productModel.deleteProduct(id);
       miscHelper.response(response, 200, result);
     } catch (error) {
       console.log(error);

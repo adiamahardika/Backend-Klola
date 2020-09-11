@@ -8,16 +8,30 @@ module.exports = {
     result.result = data;
     return response.status(result.status).json(result);
   },
-  CustomResponsePagination: (response, status, data, pagination) => {
-    const page = [];
+  customResponsePagination: (response, status, data, pagination) => {
     const result = {};
+    const page = pagination.page;
+    const limit = pagination.limit;
+    const total_data = pagination.total_data;
+    const start_index = pagination.start_index;
+    const end_index = page * limit;
 
-    for (var pages = 1; pages <= pagination.totalPages; pages++) {
-      page[pages - 1] = pages;
-    }
     result.status = status || 200;
+    result.total_data = total_data;
+    result.total_pages = Math.ceil(total_data / limit);
+    if (end_index < total_data) {
+      result.next_page = {
+        page: page + 1,
+        limit: limit,
+      };
+    }
+    if (start_index > 0) {
+      result.previous_page = {
+        page: page - 1,
+        limit: limit,
+      };
+    }
     result.result = data;
-    result.totalPages = page;
 
     return response.status(result.status).json(result);
   },
