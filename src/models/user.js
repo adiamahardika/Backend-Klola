@@ -22,13 +22,13 @@ module.exports = {
       );
     });
   },
-  getAllUser: (userId, name, status) => {
+  getAllUser: (id, name, status, sort_by, order_by) => {
     return new Promise((resolve, reject) => {
-      if (userId !== null) {
+      if (id !== null) {
         connection.query(
           `SELECT user.id, user.name, user.email, user.status, user_status.status as status_name, user.date_created, user.date_updated FROM user LEFT JOIN user_status ON user.status = user_status.id
       WHERE user.id = ?`,
-          userId,
+          id,
           (error, result) => {
             if (error) reject(new Error(error));
             resolve(result);
@@ -37,7 +37,7 @@ module.exports = {
       } else {
         connection.query(
           `SELECT user.id, user.name, user.email, user.status, user_status.status as status_name, user.date_created, user.date_updated FROM user LEFT JOIN user_status ON user.status = user_status.id
-      WHERE user.name LIKE '%${name}' AND user.status LIKE '%${status}' ORDER BY name ASC`,
+      WHERE user.name LIKE '%${name}%' AND user.status LIKE '%${status}%' ORDER BY ${sort_by} ${order_by}`,
           (error, result) => {
             if (error) reject(new Error(error));
             resolve(result);
@@ -46,18 +46,18 @@ module.exports = {
       }
     });
   },
-  updateUser: (data, userId) => {
+  updateUser: (data, id) => {
     return new Promise((resolve, reject) => {
-      connection.query("UPDATE user SET ? WHERE id = ?", [data, userId]);
+      connection.query("UPDATE user SET ? WHERE id = ?", [data, id]);
       connection.query(readQuery, (error, result) => {
         if (error) reject(new Error(error));
         resolve(result);
       });
     });
   },
-  deleteUser: (userId) => {
+  deleteUser: (id) => {
     return new Promise((resolve, reject) => {
-      connection.query("DELETE FROM user WHERE id = ?", userId);
+      connection.query("DELETE FROM user WHERE id = ?", id);
       connection.query(readQuery, (error, result) => {
         if (error) reject(new Error(error));
         resolve(result);

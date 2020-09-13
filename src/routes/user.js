@@ -14,8 +14,8 @@ Route.post("/register", register)
   .post("/login", login)
   .post("/token", token)
   .get("/", getAllUser)
-  .get("/:userId", getAllUser)
-  .patch("/:userId", updateUser)
-  .delete("/:userId", deleteUser);
+  .get("/:id", getAllUser)
+  .patch("/:id", updateUser)
+  .delete("/:id", deleteUser);
 
 module.exports = Route;

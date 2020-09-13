@@ -110,10 +110,18 @@ module.exports = {
   },
   getAllUser: async (request, response) => {
     try {
-      const userId = request.params.userId || null;
+      const id = request.params.id || null;
       const name = request.query.name || "";
-      const status = request.query.status || "";
-      const result = await userModel.getAllUser(userId, name, status);
+      const status = parseInt(request.query.status) || "";
+      const sort_by = request.query.sort_by || "name";
+      const order_by = request.query.order_by || "ASC";
+      const result = await userModel.getAllUser(
+        id,
+        name,
+        status,
+        sort_by,
+        order_by
+      );
       miscHelper.response(response, 200, result);
     } catch (error) {
       console.log(error);
@@ -128,8 +136,8 @@ module.exports = {
         status: request.body.status,
         date_updated: new Date(),
       };
-      const userId = request.params.userId;
-      const result = await userModel.updateUser(data, userId);
+      const id = request.params.id;
+      const result = await userModel.updateUser(data, id);
       miscHelper.response(response, 200, result);
     } catch (error) {
       console.log(error);
@@ -138,8 +146,8 @@ module.exports = {
   },
   deleteUser: async (request, response) => {
     try {
-      const userId = request.params.userId;
-      const result = await userModel.deleteUser(userId);
+      const id = request.params.id;
+      const result = await userModel.deleteUser(id);
       miscHelper.response(response, 200, result);
     } catch (error) {
       console.log(error);
